@@ -8,7 +8,12 @@
       "vncPort": "5901"
     }
   },
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y chromium firefox-esr",
+  "hostRequirements": { "cpus": 4 },
+  "runArgs": ["--shm-size=2g"],
+  "containerEnv": {
+    "VNC_RESOLUTION": "1280x720x16"
+  },
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends chromium firefox-esr fonts-liberation ffmpeg && echo 'export CHROMIUM_FLAGS=\"$CHROMIUM_FLAGS --no-sandbox --disable-dev-shm-usage --disable-gpu\"' | sudo tee /etc/chromium.d/00-custom >/dev/null",
   "forwardPorts": [6080],
   "portsAttributes": {
     "6080": { "label": "Desktop (noVNC)", "onAutoForward": "notify" }
